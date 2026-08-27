@@ -1,0 +1,43 @@
+--- a/smali_classes2/bmj.smali
++++ b/smali_classes2/bmj.smali
+@@ -123,7 +123,7 @@
+ .end method
+
+ .method private final n(Lbmi;Lizf;Landroid/os/Handler;Latq;)V
+-    .locals 2
++    .locals 4
+
+     :try_start_0
+     iget-object v0, p0, Lbmj;->j:Landroid/app/admin/DevicePolicyManager;
+@@ -138,7 +138,31 @@
+
+     iget-object v0, p0, Lbmj;->l:Ljava/util/concurrent/Semaphore;
+
+-    invoke-virtual {v0}, Ljava/util/concurrent/Semaphore;->acquire()V
++    const-wide/16 v1, 0x7d0
++
++    sget-object v3, Ljava/util/concurrent/TimeUnit;->MILLISECONDS:Ljava/util/concurrent/TimeUnit;
++
++    invoke-virtual {v0, v1, v2, v3}, Ljava/util/concurrent/Semaphore;->tryAcquire(JLjava/util/concurrent/TimeUnit;)Z
++
++    move-result v0
++
++    if-nez v0, :cond_1
++
++    sget-object v0, Lbmj;->a:Llpr;
++
++    invoke-virtual {v0}, Llpm;->c()Llqh;
++
++    move-result-object v0
++
++    const-string v1, "doRequestCamera: timed out waiting for camera semaphore; skip duplicate request"
++
++    const/16 v2, 0x5c
++
++    invoke-static {v0, v1, v2}, Ld;->h(Llqh;Ljava/lang/String;C)V
++
++    return-void
++
++    :cond_1
+
+     invoke-virtual {p2}, Lizf;->a()I

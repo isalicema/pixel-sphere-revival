@@ -1,0 +1,72 @@
+--- a/res/layout/activity_main.xml
++++ b/res/layout/activity_main.xml
+@@ -15 +15 @@
+-    <com.google.android.apps.camera.zoomui.ZoomUi android:id="@id/zoom_ui" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="@dimen/zoom_ui_height" android:layout_alignParentBottom="true" android:layoutDirection="locale" custom:gca_box="zoomSlider" />
++    <com.google.android.apps.camera.zoomui.ZoomUi android:id="@id/zoom_ui" android:clickable="false" android:enabled="false" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_alignParentBottom="true" android:layoutDirection="locale" custom:gca_box="zoomSlider" />
+--- a/res/layout/bottom_bar_layout.xml
++++ b/res/layout/bottom_bar_layout.xml
+@@ -5 +5 @@
+-        <com.google.android.apps.camera.bottombar.CameraSwitchButton android:layout_gravity="center" android:id="@id/camera_switch_button" android:background="@color/transparent" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent" android:src="@drawable/front_back_switch_button_animation" />
++        <com.google.android.apps.camera.bottombar.CameraSwitchButton android:layout_gravity="center" android:id="@id/camera_switch_button" android:background="@color/transparent" android:clickable="false" android:enabled="false" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" android:src="@drawable/front_back_switch_button_animation" />
+--- a/res/layout/options_menu_container.xml
++++ b/res/layout/options_menu_container.xml
+@@ -9 +9 @@
+-    <FrameLayout android:id="@id/slider_exposure" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/slider_exposure" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -12 +12 @@
+-    <FrameLayout android:id="@id/slider_iso" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/slider_iso" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -15 +15 @@
+-    <FrameLayout android:id="@id/astro_time" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/astro_time" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -18 +18 @@
+-    <FrameLayout android:id="@id/aux_butt_horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/aux_butt_horizontal" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -31 +31 @@
+-    <FrameLayout android:id="@id/aux_butt_vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentRight="true">
++    <FrameLayout android:id="@id/aux_butt_vertical" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip" android:layout_alignParentRight="true">
+@@ -44 +44 @@
+-    <FrameLayout android:id="@id/LIB" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/LIB" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -47 +47 @@
+-    <FrameLayout android:id="@id/AWBbutton" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/AWBbutton" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -50 +50 @@
+-    <FrameLayout android:id="@id/watmkbutton" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/watmkbutton" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -53 +53 @@
+-    <FrameLayout android:id="@id/Aperture" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/Aperture" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -56 +56 @@
+-    <FrameLayout android:id="@id/profilebutton" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/profilebutton" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -59 +59 @@
+-    <FrameLayout android:id="@id/upscaling" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/upscaling" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+@@ -62 +62 @@
+-    <FrameLayout android:id="@id/shading" android:layout_width="fill_parent" android:layout_height="fill_parent">
++    <FrameLayout android:id="@id/shading" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="0.0dip">
+--- a/smali_classes2/com/google/android/apps/camera/zoomui/ZoomUi.smali
++++ b/smali_classes2/com/google/android/apps/camera/zoomui/ZoomUi.smali
+@@ -179,2 +179,12 @@
+ # virtual methods
++.method public setVisibility(I)V
++    .locals 1
++
++    const/16 v0, 0x8
++
++    invoke-super {p0, v0}, Landroid/widget/FrameLayout;->setVisibility(I)V
++
++    return-void
++.end method
++
+ .method public final b()Landroid/view/ViewGroup;
+--- a/smali_classes2/com/google/android/apps/camera/legacy/app/activity/main/CameraActivity.smali
++++ b/smali_classes2/com/google/android/apps/camera/legacy/app/activity/main/CameraActivity.smali
+@@ -255,6 +255,2 @@
+     :cond_1
+-    invoke-static {v1}, Lsgcam/update/OTAUpdateHelper;->checkForUpdatesIfDue(Landroid/content/Context;)V
+-
+-    invoke-static {v1}, Lsgcam/stuffs/DirtyInstallHandler;->checkWithDelay(Landroid/content/Context;)V
+-
+     const v2, 0x64

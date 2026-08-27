@@ -1,0 +1,57 @@
+name: Device compatibility report
+description: Report a complete Photo Sphere pass or a reproducible device failure
+title: "[Device] "
+labels:
+  - compatibility
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not upload APKs, signing keys, photos, account details, or device serial numbers.
+        A visible preview is not a PASS; complete the capture, stitch, save, and 360-viewer checks.
+  - type: input
+    id: model
+    attributes:
+      label: Exact model number
+      description: "Example: SM-S9280, not only Galaxy S24 Ultra."
+    validations:
+      required: true
+  - type: input
+    id: soc
+    attributes:
+      label: SoC
+      description: Snapdragon, Exynos, Tensor, or unknown.
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Android / One UI / build
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Furthest completed gate
+      options:
+        - Install failed
+        - Launch failed
+        - Preview only
+        - Guide-dot capture started
+        - Short capture stitched and saved
+        - Full 360 stitched, saved, and viewed
+        - Stock-camera hot-resume passed 3/3
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened
+      description: Include exact actions and messages, with private data removed.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs (optional)
+      description: Remove serial numbers, paths, accounts, locations, and image metadata.

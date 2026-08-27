@@ -1,0 +1,211 @@
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -81,7 +81,6 @@
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+     <uses-permission android:minSdkVersion="33" android:name="android.permission.READ_MEDIA_IMAGES"/>
+     <uses-permission android:minSdkVersion="33" android:name="android.permission.READ_MEDIA_VIDEO"/>
+-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+     <uses-permission android:name="com.google.android.elmyra.permission.CONFIGURE_ASSIST_GESTURE"/>
+--- a/smali_classes2/bju.smali
++++ b/smali_classes2/bju.smali
+@@ -10,7 +10,7 @@
+ .method static constructor <clinit>()V
+     .locals 1
+
+-    sget-object v0, Lheb;->b:Lheb;
++    sget-object v0, Lheb;->e:Lheb;
+
+     sput-object v0, Lbju;->a:Lheb;
+
+--- a/smali/gvj.smali
++++ b/smali/gvj.smali
+@@ -171,70 +171,12 @@
+
+     iput-boolean v3, v0, Lgvj;->v:Z
+
+-    sget-object v5, Lheb;->m:Lheb;
++    sget-object v2, Lheb;->e:Lheb;
+
+-    invoke-virtual {v1, v5}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+-
+-    if-eqz v3, :cond_0
+-
+-    sget-object v3, Lheb;->l:Lheb;
+-
+-    invoke-virtual {v1, v3}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+-
+-    :cond_0
+-    if-eqz v2, :cond_1
+-
+-    sget-object v2, Lheb;->g:Lheb;
+-
+     invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+-    :cond_1
+-    sget-object v2, Lheb;->b:Lheb;
+-
+-    invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+-
+-    sget-object v2, Lheb;->c:Lheb;
+-
+-    invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+-
+-    sget-object v2, Lheb;->p:Lheb;
+-
+-    invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+-
+-    invoke-virtual/range {p11 .. p11}, Lcak;->m()Landroid/content/Intent;
+-
+-    move-result-object v2
+-
+-    invoke-static {v2}, Lbju;->d(Landroid/content/Intent;)Lheb;
+-
+-    move-result-object v2
+-
+-    invoke-virtual {v2}, Lheb;->ordinal()I
+-
+-    move-result v3
+-
+-    sparse-switch v3, :sswitch_data_0
+-
+-    sget-object v2, Lheb;->b:Lheb;
+-
+     iput-object v2, v0, Lgvj;->g:Lheb;
+
+-    goto :goto_1
+-
+-    :sswitch_0
+-    sget-object v2, Lheb;->c:Lheb;
+-
+-    goto :goto_0
+-
+-    :sswitch_1
+-    nop
+-
+-    :goto_0
+-    iput-object v2, v0, Lgvj;->g:Lheb;
+-
+-    :goto_1
+-    iget-object v2, v0, Lgvj;->g:Lheb;
+-
+     invoke-virtual {v1, v2}, Ljava/util/ArrayList;->indexOf(Ljava/lang/Object;)I
+
+     move-result v1
+@@ -248,19 +190,6 @@
+     invoke-interface {v1, p0}, Lekv;->a(Lgvz;)V
+
+     return-void
+-
+-    nop
+-
+-    :sswitch_data_0
+-    .sparse-switch
+-        0x2 -> :sswitch_1
+-        0x5 -> :sswitch_0
+-        0x6 -> :sswitch_1
+-        0xb -> :sswitch_1
+-        0xc -> :sswitch_1
+-        0xd -> :sswitch_0
+-        0xf -> :sswitch_1
+-    .end sparse-switch
+ .end method
+
+ .method private final y(Lheb;Z)V
+@@ -519,44 +448,10 @@
+     iget-object v0, p0, Lgvj;->t:Lebs;
+
+     invoke-interface {p1, v0}, Lgwq;->t(Lebs;)V
+-
+-    iget-object p1, p0, Lgvj;->h:Lgwq;
+-
+-    sget-object v0, Lheb;->m:Lheb;
+-
+-    invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+-
+-    iget-boolean p1, p0, Lgvj;->v:Z
+-
+-    if-eqz p1, :cond_0
+-
+-    iget-object p1, p0, Lgvj;->h:Lgwq;
+-
+-    sget-object v0, Lheb;->l:Lheb;
+
+-    invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+-
+-    :cond_0
+-    iget-boolean p1, p0, Lgvj;->s:Z
+-
+-    if-eqz p1, :cond_1
+-
+     iget-object p1, p0, Lgvj;->h:Lgwq;
+
+-    sget-object v0, Lheb;->g:Lheb;
+-
+-    invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+-
+-    :cond_1
+-    iget-object p1, p0, Lgvj;->h:Lgwq;
+-
+-    sget-object v0, Lheb;->b:Lheb;
+-
+-    invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+-
+-    iget-object p1, p0, Lgvj;->h:Lgwq;
+-
+-    sget-object v0, Lheb;->c:Lheb;
++    sget-object v0, Lheb;->e:Lheb;
+
+     invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+
+@@ -938,6 +833,10 @@
+     .locals 1
+
+     if-eqz p1, :cond_3
++
++    sget-object v0, Lheb;->e:Lheb;
++
++    if-ne p1, v0, :cond_3
+
+     iget-object v0, p0, Lgvj;->g:Lheb;
+
+--- a/smali/gwk.smali
++++ b/smali/gwk.smali
+@@ -566,12 +566,6 @@
+     xor-int/2addr v0, v1
+
+     invoke-static {v0}, Ljzc;->l(Z)V
+-
+-    iget-object v0, p0, Lgwk;->d:Lcom/google/android/apps/camera/ui/modeswitcher/ModeSwitcher;
+-
+-    sget-object v2, Lheb;->p:Lheb;
+-
+-    invoke-virtual {v0, v2}, Lcom/google/android/apps/camera/ui/modeswitcher/ModeSwitcher;->c(Lheb;)V
+
+     iget-object v0, p0, Lgwk;->c:Ljava/util/EnumMap;
+
+--- a/smali_classes2/gks.smali
++++ b/smali_classes2/gks.smali
+@@ -258,6 +258,8 @@
+     return-void
+
+     :pswitch_7
++    return-void
++
+     iget-object v0, p0, Lgks;->a:Ljava/lang/Object;
+
+     check-cast v0, Lgmg;
+--- a/smali_classes2/com/google/android/apps/camera/legacy/app/activity/main/CameraActivity.smali
++++ b/smali_classes2/com/google/android/apps/camera/legacy/app/activity/main/CameraActivity.smali
+@@ -238,10 +238,6 @@
+     invoke-virtual {v1, v0}, Landroid/app/Activity;->setRequestedOrientation(I)V
+
+     :cond_0
+-    invoke-static {v1}, Lsgcam/permission/PermissionUtil;->showManageAllFilesAccessPermissionDialog(Lcom/google/android/apps/camera/legacy/app/activity/main/CameraActivity;)V
+-
+-    invoke-static {v1}, Lsgcam/changelogdialog/changelog;->ShowNicknameAndChangelog(Lcom/google/android/apps/camera/legacy/app/activity/main/CameraActivity;)V
+-
+     const-string v2, "pref_enable_logcat_key"
+
+     invoke-static {v2}, Lsgcam/Shamim;->MenuValue(Ljava/lang/String;)I

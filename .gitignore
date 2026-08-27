@@ -1,0 +1,22 @@
+# Proprietary inputs and generated reverse-engineering output
+artifacts/
+decompiled/
+build/
+dist/
+evidence/
+.local/
+.signing/
+
+# Never commit signing material
+*.jks
+*.keystore
+*.p12
+*.pem
+
+# Local tooling
+.tooling/
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.pyc

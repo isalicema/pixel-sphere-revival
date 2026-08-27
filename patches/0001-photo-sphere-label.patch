@@ -1,0 +1,11 @@
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -89,7 +89,7 @@
+     <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"/>
+     <uses-permission android:name="android.permission.INSTALL_PACKAGE_UPDATES"/>
+     <uses-feature android:name="android.hardware.camera"/>
+-    <application android:allowBackup="true" android:backupAgent="com.google.android.apps.camera.backup.CameraBackupAgent" android:fullBackupOnly="false" android:hardwareAccelerated="true" android:icon="@mipmap/adaptiveproduct_pixelcamera_launcher" android:label="@string/app_name" android:largeHeap="true" android:name="com.pairip.application.Application" android:requestLegacyExternalStorage="true" android:restoreAnyVersion="true" android:supportsRtl="true" android:taskAffinity="" android:theme="@style/Theme.Camera" android:usesCleartextTraffic="false">
++    <application android:allowBackup="true" android:backupAgent="com.google.android.apps.camera.backup.CameraBackupAgent" android:fullBackupOnly="false" android:hardwareAccelerated="true" android:icon="@mipmap/adaptiveproduct_pixelcamera_launcher" android:label="Photo Sphere" android:largeHeap="true" android:name="com.pairip.application.Application" android:requestLegacyExternalStorage="true" android:restoreAnyVersion="true" android:supportsRtl="true" android:taskAffinity="" android:theme="@style/Theme.Camera" android:usesCleartextTraffic="false">
+         <uses-library android:name="com.google.android.gestureservice" android:required="false"/>
+         <uses-library android:name="com.google.android.camera2" android:required="false"/>
+         <uses-library android:name="com.google.android.camera.experimental2015" android:required="false"/>
