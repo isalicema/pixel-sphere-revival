@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-readonly release_version="v0.8"
+readonly release_version="v0.9"
 readonly expected_base_sha256="5627913aadbda11a0d7abf77b670802335995f2c635ef9af5fee5161a615f76c"
 readonly apktool_sha256="effb69dab2f93806cafc0d232f6be32c2551b8d51c67650f575e46c016908fdd"
 readonly signer_sha256="e1299fd6fcf4da527dd53735b56127e8ea922a321128123b9c32d619bba1d835"
@@ -97,7 +97,14 @@ decode_dir="$work_dir/decompiled"
 signed_dir="$work_dir/signed"
 signing_dir="$local_root/signing"
 output_dir="$local_root/output"
-output_apk="$output_dir/Photo-Sphere-v0.8-camera-lock-guard.apk"
+output_apk="$output_dir/Photo-Sphere-v0.9-dedicated-icon.apk"
+
+preserved_signing_dir="$project_root/.signing"
+if [[ -n "${SIGNING_DIR:-}" ]]; then
+  signing_dir="$SIGNING_DIR"
+elif [[ -e "$preserved_signing_dir/photo-sphere-local.jks" || -e "$preserved_signing_dir/keystore.properties" ]]; then
+  signing_dir="$preserved_signing_dir"
+fi
 
 case "$work_dir" in
   "$project_root"/.local/work/*) ;;
@@ -120,22 +127,27 @@ mkdir -p "$decode_dir" "$signed_dir"
 printf 'Decoding base APK...\n'
 "$java_bin" -jar "$apktool_jar" d -q -f -p "$framework_dir" "$base_apk" -o "$decode_dir"
 
-printf 'Applying v0.8 patch series...\n'
+printf 'Applying stable v0.9 patch series...\n'
 patch_count=0
-for patch_file in "$project_root"/patches/*.patch; do
+for patch_file in "$project_root"/patches/000[1-6]-*.patch; do
   [[ -f "$patch_file" ]] || fail "no patches found"
   printf '  %s\n' "$(basename "$patch_file")"
   patch -d "$decode_dir" -p1 --forward --batch < "$patch_file"
   patch_count=$((patch_count + 1))
 done
-[[ "$patch_count" -eq 5 ]] || fail "expected 5 patches, found $patch_count"
+[[ "$patch_count" -eq 6 ]] || fail "expected 6 stable patches, found $patch_count"
 
 reject_file="$(find "$decode_dir" -type f -name '*.rej' -print -quit)"
 [[ -z "$reject_file" ]] || fail "patch rejection found: $reject_file"
 find "$decode_dir" -type f -name '*.orig' -delete
 
+icon_res_dir="$project_root/assets/android/res"
+[[ -d "$icon_res_dir" ]] || fail "Android icon resources not found: $icon_res_dir"
+printf 'Installing Photo Sphere launcher icon resources...\n'
+cp -R "$icon_res_dir"/. "$decode_dir/res/"
+
 printf 'Rebuilding APK...\n'
-unsigned_apk="$work_dir/Photo-Sphere-v0.8-unsigned.apk"
+unsigned_apk="$work_dir/Photo-Sphere-v0.9-unsigned.apk"
 "$java_bin" -jar "$apktool_jar" b -q -p "$framework_dir" "$decode_dir" -o "$unsigned_apk"
 
 keystore="$signing_dir/photo-sphere-local.jks"
@@ -163,13 +175,19 @@ fi
 signing_alias="$(awk -F= '$1 == "alias" {print substr($0, index($0, "=") + 1)}' "$properties")"
 store_password="$(awk -F= '$1 == "store_password" {print substr($0, index($0, "=") + 1)}' "$properties")"
 key_password="$(awk -F= '$1 == "key_password" {print substr($0, index($0, "=") + 1)}' "$properties")"
+expected_certificate="$(awk -F= '$1 == "certificate_sha256" {print substr($0, index($0, "=") + 1)}' "$properties")"
 [[ -n "$signing_alias" && -n "$store_password" && -n "$key_password" ]] || fail "invalid signing properties"
 
 printf 'Signing and zip-aligning APK...\n'
-"$java_bin" -jar "$signer_jar" \
+signer_args=(
   --apks "$unsigned_apk" --out "$signed_dir" \
   --ks "$keystore" --ksAlias "$signing_alias" \
   --ksPass "$store_password" --ksKeyPass "$key_password"
+)
+if [[ -n "$expected_certificate" ]]; then
+  signer_args+=(--verifySha256 "$expected_certificate")
+fi
+"$java_bin" -jar "$signer_jar" "${signer_args[@]}"
 
 signed_apks=("$signed_dir"/*.apk)
 [[ -f "${signed_apks[0]}" && ${#signed_apks[@]} -eq 1 ]] || fail "expected exactly one signed APK in $signed_dir"

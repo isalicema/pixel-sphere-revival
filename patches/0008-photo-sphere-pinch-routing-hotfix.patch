@@ -1,0 +1,11 @@
+--- a/smali/com/google/android/apps/camera/ui/wirers/PreviewOverlay.smali
++++ b/smali/com/google/android/apps/camera/ui/wirers/PreviewOverlay.smali
+@@ -72,6 +72,8 @@
+     return v1
+
+     :cond_0
++    goto :cond_5
++
+     iget-boolean v0, p0, Lcom/google/android/apps/camera/ui/wirers/PreviewOverlay;->d:Z
+
+     if-eqz v0, :cond_5

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Photo Sphere minimal launcher icon v4</title>
+  <desc>An original abstract spherical panorama glyph based on one curved image band.</desc>
+
+  <!-- Preview container. Android adaptive resources will separate this background later. -->
+  <rect x="32" y="32" width="960" height="960" rx="224" fill="#151515"/>
+
+  <!-- One upper and one lower sweep imply a sphere without longitude or latitude lines. -->
+  <path d="M276 405 C326 248 698 248 748 405"
+        fill="none" stroke="#F3F3F3" stroke-width="76" stroke-linecap="round"/>
+  <path d="M276 619 C326 776 698 776 748 619"
+        fill="none" stroke="#F3F3F3" stroke-width="76" stroke-linecap="round"/>
+
+  <!-- The curved panoramic frame is the primary silhouette, echoing the app's Type icons. -->
+  <path d="M242 405 Q512 326 782 405 L782 619 Q512 698 242 619 Z"
+        fill="#F7F7F7"/>
+  <path d="M320 461 Q512 409 704 461 L704 563 Q512 615 320 563 Z"
+        fill="#151515"/>
+
+</svg>

@@ -1,0 +1,241 @@
+--- a/smali/dws.smali
++++ b/smali/dws.smali
+@@ -24,6 +24,8 @@
+
+ .field public G:Z
+
++.field public zoomRatio:F
++
+ .field public final H:Landroid/os/Handler;
+
+ .field public final I:Lald;
+@@ -174,6 +176,10 @@
+
+     iput-boolean p11, p0, Ldws;->G:Z
+
++    const/high16 p10, 0x3f800000    # 1.0f
++
++    iput p10, p0, Ldws;->zoomRatio:F
++
+     new-instance p10, Lnkr;
+
+     invoke-direct {p10, p0}, Lnkr;-><init>(Ldws;)V
+@@ -389,6 +395,6 @@
+ # virtual methods
+ .method public final a()F
+-    .locals 2
++    .locals 8
+
+     invoke-virtual {p0}, Ldws;->b()F
+
+@@ -401,7 +407,7 @@
+
+     if-lez v1, :cond_0
+
+-    return v0
++    goto :goto_0
+
+     :cond_0
+     iget v0, p0, Ldws;->K:F
+@@ -414,6 +420,46 @@
+     const/high16 v0, 0x425c0000    # 55.0f
+
+     :cond_1
++    :goto_0
++    iget v1, p0, Ldws;->zoomRatio:F
++
++    const/high16 v2, 0x3f800000    # 1.0f
++
++    cmpl-float v2, v1, v2
++
++    if-lez v2, :cond_2
++
++    float-to-double v2, v0
++
++    const-wide/high16 v4, 0x4000000000000000L    # 2.0
++
++    div-double/2addr v2, v4
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->toRadians(D)D
++
++    move-result-wide v2
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->tan(D)D
++
++    move-result-wide v2
++
++    float-to-double v6, v1
++
++    div-double/2addr v2, v6
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->atan(D)D
++
++    move-result-wide v2
++
++    mul-double/2addr v2, v4
++
++    invoke-static {v2, v3}, Ljava/lang/Math;->toDegrees(D)D
++
++    move-result-wide v2
++
++    double-to-float v0, v2
++
++    :cond_2
+     return v0
+ .end method
+
+@@ -1564,6 +1608,116 @@
+     .end packed-switch
+ .end method
+
++.method public final j(F)F
++    .locals 7
++
++    const/high16 v0, 0x3f800000    # 1.0f
++
++    const/4 v1, 0x0
++
++    cmpg-float v1, p1, v1
++
++    if-lez v1, :cond_4
++
++    iget-object v1, p0, Ldws;->c:Ldvz;
++
++    if-eqz v1, :cond_4
++
++    iget-object v1, v1, Ldvz;->b:Latu;
++
++    if-eqz v1, :cond_4
++
++    invoke-virtual {v1}, Latu;->e()Lauf;
++
++    move-result-object v2
++
++    sget-object v3, Laua;->a:Laua;
++
++    invoke-virtual {v2, v3}, Lauf;->d(Laua;)Z
++
++    move-result v3
++
++    if-eqz v3, :cond_4
++
++    iget v3, p0, Ldws;->zoomRatio:F
++
++    mul-float v4, v3, p1
++
++    invoke-static {v4, v0}, Ljava/lang/Math;->max(FF)F
++
++    move-result v4
++
++    const/high16 v5, 0x40000000    # 2.0f
++
++    invoke-static {v4, v5}, Ljava/lang/Math;->min(FF)F
++
++    move-result v4
++
++    iget v5, v2, Lauf;->t:F
++
++    invoke-static {v4, v5}, Ljava/lang/Math;->min(FF)F
++
++    move-result v4
++
++    invoke-virtual {v1}, Latu;->f()Laum;
++
++    move-result-object v5
++
++    iput v4, v5, Laum;->p:F
++
++    invoke-virtual {v1, v5}, Latu;->m(Laum;)V
++
++    invoke-virtual {v1}, Latu;->f()Laum;
++
++    move-result-object v1
++
++    iget v4, v1, Laum;->p:F
++
++    iput v4, p0, Ldws;->zoomRatio:F
++
++    div-float v6, v4, v3
++
++    iget-object v1, p0, Ldws;->b:Ldwv;
++
++    if-eqz v1, :cond_3
++
++    iget v1, v1, Ldwv;->G:I
++
++    invoke-virtual {p0, v1}, Ldws;->h(I)V
++
++    :cond_3
++    const/4 v1, 0x1
++
++    new-array v2, v1, [Ljava/lang/Object;
++
++    invoke-static {v4}, Ljava/lang/Float;->valueOf(F)Ljava/lang/Float;
++
++    move-result-object v5
++
++    const/4 v1, 0x0
++
++    aput-object v5, v2, v1
++
++    const-string v5, "%.1f×"
++
++    invoke-static {v5, v2}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
++
++    move-result-object v2
++
++    iget-object v5, p0, Ldws;->p:Landroid/content/Context;
++
++    invoke-static {v5, v2, v1}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
++
++    move-result-object v1
++
++    invoke-virtual {v1}, Landroid/widget/Toast;->show()V
++
++    return v6
++
++    :cond_4
++    return v0
++.end method
++
+ .method public final onClick(Landroid/view/View;)V
+     .locals 0
+
+--- a/smali/dwv.smali
++++ b/smali/dwv.smali
+@@ -1026,7 +1026,17 @@
+
+ # virtual methods
+ .method public final a(F)V
+-    .locals 0
++    .locals 1
++
++    iget-object v0, p0, Ldwv;->F:Ldws;
++
++    if-eqz v0, :cond_0
++
++    invoke-virtual {v0, p1}, Ldws;->j(F)F
++
++    move-result p1
++
++    :cond_0
+
+     invoke-virtual {p0, p1}, Ldwv;->e(F)V
+
+--- a/smali_classes2/bpt.smali
++++ b/smali_classes2/bpt.smali
+@@ -686,6 +686,14 @@
+
+     check-cast p1, Lemn;
+
++    iget-boolean v0, p1, Lemn;->l:Z
++
++    if-eqz v0, :cond_zoom_allowed
++
++    return v3
++
++    :cond_zoom_allowed
++
+     iget-object p1, p1, Lemn;->r:Ldws;
+
+     if-eqz p1, :cond_11
