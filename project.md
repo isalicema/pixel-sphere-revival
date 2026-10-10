@@ -6,7 +6,7 @@
 
 - 当前目标：维持 Pixel 10 Pro XL v0.9 无变焦稳定版，不再推进主摄变焦。
 - 当前实机版本：v0.9 已于 2026-10-11 00:03:20（Asia/Shanghai）按 Alice 决策原位恢复；首次安装时间保持不变，设备端 APK SHA-256 与此前验收包一致。回退后的首次启动仍待确认。
-- 最新公开版本：v0.8，commit `160125efd22ddb5a35bf608a4f11f462c81eff14`。
+- 最新公开版本：v0.9，发布 commit `006c1040bb51cbf7e476078a6d16e37667670293`，annotated tag `v0.9`；GitHub Release 于 2026-10-11 00:12:37（Asia/Shanghai）发布：`https://github.com/isalicema/pixel-sphere-revival/releases/tag/v0.9`。
 - 当前支持构建：v0.9；只应用 `0001`–`0006` 六个稳定补丁，不包含变焦。已安装 APK 大小 `172782348` bytes，SHA-256 `61c37c3ff900e0dd80d882c23bc63a1867e4e4a66ae8fe88ac5b26e55ea5b9af`。
 - 发布前重建：2026-10-11 全量构建、zipalign、v3 签名与证书连续性 PASS；新包 SHA-256 为 `32cf9206024611ba302603b950ceafa90736f3e74a7cb8ba468a9201f62a4f93`。与设备已验收包逐一比较 3069 个 ZIP 条目，内容差异为 0；归一化内容 SHA-256 均为 `df41ea58bfb76abbba05fd6a1b2e23a079dfb5f8b1674e8c51c5e06708b1b31f`。整体 APK 哈希差异来自 ZIP/签名元数据，不宣称字节级可复现。
 - 已生效边界：v0.8 隐藏变焦、前后镜头切换和其他不兼容入口；完整 360° 拍摄、拼接、Fish eye / Sphere 查看及系统相机热恢复 3/3 已有 Pixel 10 Pro XL 实机证据。
@@ -16,7 +16,7 @@
 
 1. 打开已恢复的 v0.9，确认正常取景；必要时再做一张少量点合成的轻量回归。
 2. 继续维持默认焦段；不要恢复 `0007/0008` 变焦实验。
-3. v0.9 的 GitHub 更新与 Release 已获 Alice 授权，正在执行；五种 Type、Android 主题图标与系统相机热恢复沿用既有分项证据，不扩写为本轮重新验证。
+3. 五种 Type、Android 主题图标与系统相机热恢复沿用既有分项证据，不扩写为本轮重新验证；Samsung 等其他品牌设备仍未验证。
 
 ## 证据入口
 
@@ -27,7 +27,7 @@
 - 完整 360° 实拍：`docs/g8-full-360-field-validation-2026-08-27.md`
 - 主摄数码变焦候选：`docs/g10-main-camera-digital-zoom-v10-2026-10-10.md`、`patches/0007-photo-sphere-main-camera-digital-zoom.patch`
 - 双指触摸路由热修复：`docs/g11-pinch-routing-hotfix-v101-2026-10-10.md`、`patches/0008-photo-sphere-pinch-routing-hotfix.patch`
-- 发布状态：`docs/releases/v0.8.md`
+- 发布状态：`docs/releases/v0.9.md`、`https://github.com/isalicema/pixel-sphere-revival/releases/tag/v0.9`
 
 ## 历史记录
 
@@ -212,9 +212,12 @@
 - 安装后回读：`firstInstallTime` 仍为 `2026-08-27 15:28:47`，`lastUpdateTime` 更新为 `2026-10-11 00:03:20`；启动入口仍为 `com.shamim.cam/com.android.camera.CameraLauncher`。设备端 `base.apk` SHA-256 为 `61c37c3ff900e0dd80d882c23bc63a1867e4e4a66ae8fe88ac5b26e55ea5b9af`，与此前验收过的 v0.9 输出一致。
 - 状态边界：回退安装与文件一致性 PASS；回退后的首次启动尚未观察。没有 commit、push 或发布。
 
-### PSR-021 — 2026-10-11（Asia/Shanghai）— v0.9 GitHub Release 授权与发布准备
+### PSR-021 — 2026-10-11（Asia/Shanghai）— v0.9 GitHub Release
 
 - Alice 授权：明确要求更新 GitHub 仓库并把 v0.9 设为新的 Release；该授权包括为本轮 v0.9 源码范围创建提交、推送、标签和 GitHub Release。
 - 发布范围：只发布补丁、构建脚本、图标资源与公开验证记录，不附带基础 APK、派生 APK、签名材料、设备序列号或私人绝对路径。稳定构建只应用 `0001`–`0006`；`0007/0008` 明确标为已放弃实验且不进入默认构建。
 - 凭据与工具边界：遵循仓库通用规则，push 使用原生 Git；Release 使用 GitHub 官方 API；不以沙箱内 `gh auth status` 判断登录状态，不启动浏览器授权。
-- 当前状态：公开范围与敏感信息扫描 PASS；稳定六补丁全量重建、签名与设备已验收包逐条内容比较 PASS。提交、推送、标签和 Release 尚未完成，完成后追加实际 commit、远端引用与 Release URL。
+- 发布前验证：公开范围与敏感信息扫描 PASS；稳定六补丁全量重建、zipalign、APK Signature Scheme v3、既有证书连续性及与设备已验收包的 3069 个 ZIP 条目逐项内容比较均 PASS。实验补丁 `0007/0008` 的 dry-run 也可应用，但不进入默认构建。
+- 实际交付：使用 Alice Ma 的既有 Git author / committer 身份创建发布 commit `006c1040bb51cbf7e476078a6d16e37667670293`，并附 `Co-authored-by: Codex <codex@openai.com>` trailer；原生 Git 已将 `main` 和 annotated tag `v0.9` 推送到 `origin`，远端 peeled tag 与发布 commit 一致。
+- GitHub Release：通过 GitHub 官方 API 创建 `Photo Sphere Revival v0.9`，`draft=false`、`prerelease=false`，发布时间为 2026-10-11 00:12:37（Asia/Shanghai），URL 为 `https://github.com/isalicema/pixel-sphere-revival/releases/tag/v0.9`。Release 附件数为 0；没有上传基础 APK、派生 APK 或签名材料。
+- 状态边界：仓库 commit、远端 push、tag 与 Release 均已完成并回读；本条日志的发布后证据回写将作为后续 `main` 文档提交，不移动 `v0.9` 标签。Pixel 10 Pro XL 既有实机验收保持有效；Samsung 与其他品牌兼容性仍未验证。
