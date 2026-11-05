@@ -20,3 +20,6 @@ evidence/
 .vscode/
 __pycache__/
 *.pyc
+
+# Local project ledger; never commit or publish.
+[Pp][Rr][Oo][Jj][Ee][Cc][Tt].[Mm][Dd]
